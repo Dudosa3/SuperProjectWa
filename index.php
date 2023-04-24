@@ -1,7 +1,5 @@
-<?   session_start();
-
- //  print_r($_POST);
-
+<?php
+	session_start();
     if(isset($_SESSION["login"])){
         header("Location: ./table.php");
       }
@@ -14,12 +12,13 @@
 
         if($_POST["username"] == $username &&  $_POST["password"] == $passwd){          
             $_SESSION["login"] = 1;
-            //echo "jek";
             header("Location: ./table.php");
         }
-    }?><!DOCTYPE html>
+    }?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+/*hlavička indexu kde jsou linknuty použité styly a fonty.*/
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,12 +130,6 @@ input[type=submit]{
  </style>
 </head>
 <body>
-
-    <?php
-  
- 
-
-    ?>
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>

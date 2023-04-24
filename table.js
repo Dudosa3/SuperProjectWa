@@ -12,6 +12,7 @@ $(document).ready( function () {
     
     
     $('#basic').DataTable({
+        stateSave: true,
         dom: 'lBftrip',
     buttons: [
         'colvis',
@@ -43,7 +44,7 @@ $(document).ready( function () {
     } );
   
  //   console.log($( window ).height()-100);
-        $(".dataTables_length").append($('<div class="table-filter"> <label>Aktivní:<input type="checkbox" id="check-active"></label><button id="edit-btn" class="bn49">Upravit vybrané</button><button class="bn49" id="delete-btn">Vymazat vybrané</button><button class="bn49" id="export-btn">Exportovat vybrané</button> | <a class="bn49" href="/firms/insertFirmForm.php">Přidání Firmy</a><a class="bn49 " href="/columns/columnForm.php">Úpravy sloupců</a><a class="bn49 " href="/events/tableEvents.php">Události</a></div>'));
+ $(".dataTables_length").append($('<div class="table-filter"> <label>Aktivní:<input type="checkbox" id="check-active"></label><button id="edit-btn" class="bn49">Upravit vybrané</button><button class="bn49" id="delete-btn">Vymazat vybrané</button><button class="bn49" id="export-btn">Exportovat vybrané</button> <a class="bn49" href="./firms/insertFirmForm.php" id="link">Přidání Firmy</a><a class="bn49 " href="/columns/columnForm.php">Úpravy sloupců</a><a class="bn49 " href="/events/tableEvents.php">Události</a><input id="email-btn" class="bn49" type="submit" value="Poslat email vybranym"> </div>'));
 
 
     $('#basic').DataTable().on( 'search.dt', function () {
@@ -115,30 +116,30 @@ $(document).ready( function () {
     }
     });
 
-    $("#export-btn").click(function(){
+    $("#export-btn").click(function () {
         var selected = $(".selected");
-        if(selected.length > 0){
+        if (selected.length > 0) {
             var array = [];
-                        for (const tr of selected) {
-                            array.push($(tr).attr('id'));
-                        }
-                        console.log(array);
-                        var form = document.createElement("form");
-                        form.method = "POST";
-                        form.action = "/firms/exportFirms.php";
+            for (const tr of selected) {
+                array.push($(tr).attr('id'));
+            }
+            console.log(array);
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/firms/exportFirms.php";
 
-                        var data = document.createElement("input");
+            var data = document.createElement("input");
 
-                        var json = {"ids": array};
-                        data.value = JSON.stringify(json);
-                        data.name = "ids";
-                        data.type = 'hidden';
+            var json = { "ids": array };
+            data.value = JSON.stringify(json);
+            data.name = "ids";
+            data.type = 'hidden';
 
-                        form.appendChild(data);
+            form.appendChild(data);
 
-                        document.body.appendChild(form);
+            document.body.appendChild(form);
 
-                        form.submit();
+            form.submit();
         }
     })
 
@@ -150,11 +151,29 @@ $(document).ready( function () {
         document.cookie = "search="+ value+ ";"+ expires;
     }
 
+    $("#email-btn").click(function (event) {
+        var selected = $(".selected");
+        if (selected.length > 0) {
+            var mailtoStr = "mailto:?bcc=";
+            for (var x = 0; x < selected.length; x++) {
+                var item = selected[x]
+                var email = $(item).find(".email").attr("title");
+                if (email != "") {
+                    mailtoStr += email;
+                    if (x != selected.length - 1) {
+                        mailtoStr += ",";
+                    }
+                }
+            }
+            window.location = mailtoStr;
+        }
+    });
         
+
+
 } );
 	
 $( window ).resize(function() {
   $('.dataTables_scrollBody').height($( window ).innerHeight()-180); 
 });
 
-  

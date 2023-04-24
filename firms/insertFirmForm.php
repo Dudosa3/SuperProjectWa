@@ -17,7 +17,7 @@ include_once("../session.php");
 }
 
 body {
-  background-color: #111111;
+  background-color: white;
   font-family: "Titillium Web", sans-serif;
 }
 @media screen and (min-width: 40em) {
@@ -41,7 +41,7 @@ body {
 
 .form .label {
   font-weight: bold;
-  color: white;
+  color: black;
   padding-top: 0;
   padding-left: 0;
   letter-spacing: 0.025em;
@@ -63,7 +63,7 @@ body {
   line-height: normal;
   width: 100%;
   box-sizing: border-box;
-  background: #222222;
+  background: gray;
   color: white;
   position: relative;
 }
@@ -232,9 +232,31 @@ body {
 <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script>
 <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRuntimeErrors-4f205f2c14e769b448bcf477de2938c681660d5038bc464e3700256713ebe261.js"></script>
 <style>.mM{display:block;border-radius:50%;box-shadow:0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);position:fixed;bottom:1em;right:1em;-webkit-transform-origin:50% 50%;transform-origin:50% 50%;-webkit-transition:all 240ms ease-in-out;transition:all 240ms ease-in-out;z-index:9999;opacity:0.75}.mM svg{display:block}.mM:hover{opacity:1;-webkit-transform:scale(1.125);transform:scale(1.125)}</style></head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  $(document).ready(function(event){
+    var submitOk = false;
+    $("#form").submit(function(event){
+      if(!submitOk){
+        event.preventDefault();
+      }
+      else{
+        return;
+      }
+      var name = $("#name").val();
+      $.get("checkFirm.php?firm-name="+ name, function(data, status){
+          if(data == 1){
+            alert("Zadaná firma je již vytvořena");            
+          }else{
+            submitOk = true;
+            $("#form").submit();           
+          }
+      });
+    })
+  });
+</script>
 <body>
-  <form action="insertFirm.php" method="POST" class="form">
+<form action="insertFirm.php" method="POST" id="form" class="form">
     <p class="field">
       <h2 class="label" style="font-size:30px">Přidání firmy</h2>
     </p>
@@ -342,7 +364,7 @@ if ($result->num_rows > 0) {
     
   </p>
 <p class="field half">
-    <input class="button" type="submit" value="Vytvořit">
+<input class="button" id="send" type="submit" value="Vytvořit">
   </p>
 </form>
 

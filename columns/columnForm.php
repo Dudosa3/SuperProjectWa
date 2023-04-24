@@ -18,7 +18,7 @@ include_once("../session.php");
   }
   
   body {
-    background-color: #111111;
+    background-color: white;
     font-family: "Titillium Web", sans-serif;
   }
   @media screen and (min-width: 40em) {
@@ -42,7 +42,7 @@ include_once("../session.php");
   
   .form .label {
     font-weight: bold;
-    color: white;
+    color: black;
     padding-top: 0;
     padding-left: 0;
     letter-spacing: 0.025em;
@@ -64,7 +64,7 @@ include_once("../session.php");
     line-height: normal;
     width: 100%;
     box-sizing: border-box;
-    background: #222222;
+    background: gray;
     color: white;
     position: relative;
   }
